@@ -1,4 +1,6 @@
 {
+    "name": "funaki25/r507",
+    "description": "Application Symfony de formulaire de contact (R507)",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "dev",
@@ -20,7 +22,7 @@
         "symfony/doctrine-messenger": "7.4.*",
         "symfony/dotenv": "7.4.*",
         "symfony/expression-language": "7.4.*",
-        "symfony/flex": "^2",
+        "symfony/flex": "^2.11",
         "symfony/form": "7.4.*",
         "symfony/framework-bundle": "7.4.*",
         "symfony/http-client": "7.4.*",
