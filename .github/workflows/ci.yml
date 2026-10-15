@@ -10,6 +10,18 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: symfony_test
+          MYSQL_USER: symfony
+          MYSQL_PASSWORD: symfony
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
     - uses: actions/checkout@v4
 
@@ -25,6 +37,13 @@ jobs:
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
+
+    - name: Setup test database
+      env:
+        DATABASE_URL: mysql://symfony:symfony@127.0.0.1:3306/symfony_test
+      run: |
+        php bin/console doctrine:migrations:migrate --no-interaction
+        php bin/console doctrine:fixtures:load --no-interaction --env=test
 
     - name: Run tests
       run: php bin/phpunit
