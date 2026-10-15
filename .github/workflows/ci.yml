@@ -49,5 +49,16 @@ jobs:
         php bin/console doctrine:migrations:migrate --no-interaction
         php bin/console doctrine:fixtures:load --no-interaction
 
-    - name: Run tests
-      run: php bin/phpunit
+    - name: Run tests with coverage
+      env:
+        XDEBUG_MODE: coverage
+      run: |
+        php bin/phpunit --coverage-text --coverage-clover=coverage.xml
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        files: ./coverage.xml
+        token: ${{ secrets.CODECOV_TOKEN }}
+        # Passer à true une fois le secret CODECOV_TOKEN configuré sur GitHub
+        fail_ci_if_error: false
